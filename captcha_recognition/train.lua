@@ -10,8 +10,8 @@ function train.accuracy(Xv,Yv,net,batch)
     local lloss = 0
     for i =1,Nv,batch do
         local j = math.min(i+batch-1,Nv)
-        local Xb = Xv[{{i,j}}]:cuda()
-        local Yb = Yv[{{i,j}}]:cuda()
+        local Xb = Xv[{{i,j}}]
+        local Yb = Yv[{{i,j}}]
         local out = net:forward(Xb) -- N*k*C
         local tmp,YYb = out:max(3)
         lloss = lloss + YYb:eq(Yb):sum()
@@ -27,8 +27,8 @@ function train.accuracyK(Xv,Yv,net,batch)
     local lloss = 0
     for i =1,Nv,batch do
         local j = math.min(i+batch-1,Nv)
-        local Xb = Xv[{{i,j}}]:cuda()
-        local Yb = Yv[{{i,j}}]:cuda()
+        local Xb = Xv[{{i,j}}]
+        local Yb = Yv[{{i,j}}]
         local out = net:forward(Xb) -- N*k*C
         local tmp,YYb = out:max(3)
         lloss = lloss + YYb:eq(Yb):sum(2):eq(5):sum()
@@ -46,14 +46,15 @@ function train.sgd(net,ct,Xt,Yt,Xv,Yv,K,sgd_config,batch)
     print(#x)
     for k=1,K do
         local lloss = 0
-        net:training()
+        --net:training()
 
         for i =1,Nt,batch do
             
             dx:zero()
             local j = math.min(i+batch-1,Nt)
-            local Xb = Xt[{{i,j}}]:cuda()
-            local Yb = Yt[{{i,j}}]:cuda()
+            local Xb = Xt[{{i,j}}]
+            local Yb = Yt[{{i,j}}]
+            print("now,Lua内存为:",collectgarbage("count"))
             local out = net:forward(Xb)
             local loss = ct:forward(out,Yb)
             local dout = ct:backward(out,Yb)

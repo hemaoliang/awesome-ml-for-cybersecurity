@@ -1,7 +1,7 @@
-local dir = 'dataset/'
+local dir = '/home/tracyhe/data_download/simplecaptcha_generate/'
 local validationSize = 1000
 local iterations = 30
-local batchSize = 128
+local batchSize = 32
 local sgd_config = {
       learningRate = 0.1,
       learningRateDecay = 5.0e-6,
@@ -9,19 +9,27 @@ local sgd_config = {
    }
 
 local data = require 'data';
+--第一次运行需要执行storeXY(dir)
 data.storeXY(dir)
 local X,Y = data.loadXY(dir)
 local Xt,Yt,Xv,Yv = data.split(X,Y,validationSize)
 
-local models = require 'models';
-local net,ct = models.cnnModel()
+print('loading data end..')
 
-local net = net:cuda()
-local ct = ct:cuda()
-local Xv = Xv:cuda()
-local Yv = Yv:cuda()
-local Xt = Xt:cuda()
-local Yt = Yt:cuda()
+local models = require 'models';
+--local net,ct = models.cnnModel()
+local net,ct = models.lenetModel()
+
+print(net)
+
+print('begin training..')
+
+--local net = net:cuda()
+--local ct = ct:cuda()
+--local Xv = Xv:cuda()
+--local Yv = Yv:cuda()
+--local Xt = Xt:cuda()
+--local Yt = Yt:cuda()
 
 local train = require 'train';
 

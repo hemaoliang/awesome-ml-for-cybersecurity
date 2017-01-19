@@ -1,5 +1,5 @@
 require 'nn';
-require 'cunn';
+--require 'cunn';
 require 'MultiCrossEntropyCriterion'
 
 local models = {}
@@ -66,6 +66,50 @@ function models.cnnModel(k,c)
     vgg:add(classifier)
     vgg:add(nn.Reshape(k,c))
     return vgg,nn.MultiCrossEntropyCriterion()
+end
+
+
+-- vgg model is too large and will cause out of memory in cpu mode
+-- here is a much simple cnn model based lenet
+
+function models.lenetModel(k,c)
+    local k = k or 5
+    local c = c or 36
+    
+    model = nn.Sequential()
+    model:add(nn.Reshape(1, 50, 200))
+
+    model:add(nn.SpatialConvolutionMM(1, 20, 3, 3, 1, 1, 1, 1))
+    model:add(nn.SpatialBatchNormalization(20,1e-3))
+    model:add(nn.ReLU(true))
+    model:add(nn.SpatialMaxPooling(2, 2 , 2, 2, 0, 0))
+
+    model:add(nn.SpatialConvolutionMM(20, 50, 3, 3, 1, 1, 1, 1))
+    model:add(nn.SpatialBatchNormalization(50,1e-3))
+    model:add(nn.ReLU(true))
+    model:add(nn.SpatialMaxPooling(2, 2 , 2, 2, 0, 0))
+
+    model:add(nn.SpatialConvolutionMM(50, 50, 3, 3, 1, 1, 1, 1))
+    model:add(nn.SpatialBatchNormalization(50,1e-3))
+    model:add(nn.ReLU(true))
+    model:add(nn.SpatialMaxPooling(2, 2 , 2, 2, 0, 0))
+
+    model:add(nn.View(50*6*25))
+
+    classifier = nn.Sequential()
+    --classifier:add(nn.Dropout(0.5,nil,true))
+    classifier:add(nn.Linear(50*6*25,512))
+    classifier:add(nn.BatchNormalization(512))
+    classifier:add(nn.ReLU(true))
+    --classifier:add(nn.Dropout(0.5,nil,true))
+    classifier:add(nn.Linear(512,k*c))
+    model:add(classifier)
+    model:add(nn.Reshape(k,c))
+
+    model = require('weight-init')(model, 'xavier')
+
+    return model,nn.MultiCrossEntropyCriterion()	
+
 end
 
 return models
