@@ -129,7 +129,7 @@ public void showCaptcha() {
           System.out.println(ans);
           BufferedImage out_png = captcha.getImage();
           try { 
-          ImageIO.write(out_png,"png",new File("/home/spongebob/test/simplecaptcha/data/"+ans+".png"));  
+          ImageIO.write(out_png,"png",new File("/home/tracyhe/data_download/simplecaptcha_generate/"+ans+".png"));  
           } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -142,7 +142,7 @@ public void showCaptcha() {
   public static void main(String[] args) {
     System.out.println("Hello World!");
     CaptchaTest test = new CaptchaTest();
-    for (int i=0; i<1; i++) { 
+    for (int i=0; i<10000; i++) { 
       test.showCaptcha();
     }
   }
