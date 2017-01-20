@@ -36,3 +36,6 @@ local train = require 'train';
 train.sgd(net,ct,Xt,Yt,Xv,Yv,iterations,sgd_config,batchSize)
 
 torch.save(dir .. 'net.t7',net)
+
+--print('valid .. '.. train.accuracy(Xv,Yv,net,batchSize))
+--print('valid .. '.. train.accuracyK(Xv,Yv,net,batchSize))

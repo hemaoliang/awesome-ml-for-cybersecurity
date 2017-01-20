@@ -11,10 +11,12 @@ function train.accuracy(Xv,Yv,net,batch)
     for i =1,Nv,batch do
         local j = math.min(i+batch-1,Nv)
         local Xb = Xv[{{i,j}}]
-        local Yb = Yv[{{i,j}}]
+        local Yb = Yv[{{i,j}}]:long()
         local out = net:forward(Xb) -- N*k*C
         local tmp,YYb = out:max(3)
         lloss = lloss + YYb:eq(Yb):sum()
+        --for debug
+        --break
     end
     return (100*lloss/(5*Nv))
 end
@@ -28,10 +30,12 @@ function train.accuracyK(Xv,Yv,net,batch)
     for i =1,Nv,batch do
         local j = math.min(i+batch-1,Nv)
         local Xb = Xv[{{i,j}}]
-        local Yb = Yv[{{i,j}}]
+        local Yb = Yv[{{i,j}}]:long()
         local out = net:forward(Xb) -- N*k*C
         local tmp,YYb = out:max(3)
         lloss = lloss + YYb:eq(Yb):sum(2):eq(5):sum()
+        --for debug
+        --break
     end
     return (100*lloss/(Nv))
 end
