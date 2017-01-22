@@ -9,7 +9,7 @@ local batchSize = 32
 --   }
 
 local sgd_config = {
-      learningRate = 0.01,
+      learningRate = 0.1,
       learningRateDecay = 1.0e-4,
       momentum = 0.9
    }
