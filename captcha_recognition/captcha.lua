@@ -2,17 +2,17 @@ local dir = '/home/tracyhe/data_download/simplecaptcha_generate/'
 local validationSize = 1000
 local iterations = 30
 local batchSize = 32
---local sgd_config = {
---      learningRate = 0.1,
---      learningRateDecay = 5.0e-6,
---      momentum = 0.9
---   }
-
 local sgd_config = {
       learningRate = 0.1,
-      learningRateDecay = 1.0e-4,
+      learningRateDecay = 5.0e-6,
       momentum = 0.9
    }
+
+--local sgd_config = {
+--      learningRate = 0.1,
+--      learningRateDecay = 1.0e-4,
+--      momentum = 0.9
+--   }
 
 local data = require 'data';
 --第一次运行需要执行storeXY(dir)
