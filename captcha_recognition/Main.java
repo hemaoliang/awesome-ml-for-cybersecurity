@@ -26,7 +26,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub // Required! Always!
 		//img2file("file.png",captcha.getImage());
-		img2ds("/home/tracyhe/data_download/simplecaptcha_generate/",10000);
+		img2ds("/cephfs/person/tracyhe/data/simplecaptcha_generate/",50000);
 		
 	}
 	

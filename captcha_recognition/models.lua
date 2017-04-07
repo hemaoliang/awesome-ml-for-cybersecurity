@@ -1,5 +1,5 @@
 require 'nn';
---require 'cunn';
+require 'cunn';
 require 'MultiCrossEntropyCriterion'
 
 local models = {}

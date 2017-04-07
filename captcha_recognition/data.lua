@@ -1,4 +1,4 @@
-require 'csvigo';
+--require 'csvigo';
 require 'image';
 
 local data = {}
@@ -28,11 +28,13 @@ end
 
 
 function data.loadY(dir)
-    local csv = csvigo.load{path = dir .. 'ans.txt', mode = 'raw'}
+    --local csv = csvigo.load{path = dir .. 'ans.txt', mode = 'raw'}
+    local fr = io.open(dir .. 'ans.txt','r')
     local Ystr = {}
-    for i=1,#csv do
-        table.insert(Ystr,csv[i][1])
+    for line in fr:lines() do
+        table.insert(Ystr,line)
     end
+    fr:close()
     local N = #Ystr
     local d = #Ystr[1]
     local Y = torch.zeros(N,d)
